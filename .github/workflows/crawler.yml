@@ -1,0 +1,39 @@
+name: Run Python Crawler
+
+on:
+  schedule:
+    - cron: '0 */5 * * *' # Run every 5 hours
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  run-crawler:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        machine: [1, 2, 3] # 3 machines running in parallel
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          cd toolcrawler
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install chromium
+
+      - name: Run Crawler (Machine ${{ matrix.machine }})
+        env:
+          CRAWLER_API_URL: ${{ secrets.CRAWLER_API_URL }}
+          CRAWLER_API_TASK_CLAIM_URL: ${{ secrets.CRAWLER_API_TASK_CLAIM_URL }}
+          CRAWLER_API_TASK_COMPLETE_URL: ${{ secrets.CRAWLER_API_TASK_COMPLETE_URL }}
+          CRAWLER_API_KEY: ${{ secrets.CRAWLER_API_KEY }}
+        run: |
+          cd toolcrawler
+          python -u tool.py
