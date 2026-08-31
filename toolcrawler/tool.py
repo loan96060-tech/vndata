@@ -548,7 +548,7 @@ async def main():
         all_tasks_data = []
         for category in categories:
             for loc in locations:
-                query_str = f"{loc} {category}"
+                query_str = f"{category} ở {loc}"
                 all_tasks_data.append((query_str, loc, category))
                     
         random.shuffle(all_tasks_data)
