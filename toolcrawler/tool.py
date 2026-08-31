@@ -16,9 +16,9 @@ if hasattr(sys.stdout, 'reconfigure'):
 from playwright.async_api import async_playwright
 
 # API Config (New PHP Worker)
-API_URL = os.getenv("CRAWLER_API_URL", "https://data.dulieuluatphap.com/api_worker.php?action=ingest")
-API_TASK_CLAIM_URL = os.getenv("CRAWLER_API_TASK_CLAIM_URL", "https://data.dulieuluatphap.com/api_worker.php?action=claim")
-API_TASK_COMPLETE_URL = os.getenv("CRAWLER_API_TASK_COMPLETE_URL", "https://data.dulieuluatphap.com/api_worker.php?action=complete")
+API_URL = os.getenv("CRAWLER_API_URL") or "https://data.dulieuluatphap.com/api_worker.php?action=ingest"
+API_TASK_CLAIM_URL = os.getenv("CRAWLER_API_TASK_CLAIM_URL") or "https://data.dulieuluatphap.com/api_worker.php?action=claim"
+API_TASK_COMPLETE_URL = os.getenv("CRAWLER_API_TASK_COMPLETE_URL") or "https://data.dulieuluatphap.com/api_worker.php?action=complete"
 API_KEY = os.getenv("CRAWLER_API_KEY") or "dl_secret_2026"
 
 if not API_KEY:
